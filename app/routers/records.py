@@ -1,16 +1,21 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query, status
+from typing import Annotated
 from pydantic import BaseModel
 
 router = APIRouter()
 
 
-class Expense(BaseModel):
+class Record(BaseModel):
+    type: str
     account: str
-    category: str
-    description: str | None = None
-    amount: float | int
+    amount: Annotated[float | int, Query(gt=0)]
+    currency: str
+    date: str
 
+@router.post("/records/add-income", status_code=status.HTTP_201_CREATED)
+async def expense_handler(income: Record):
+    return {"status": 200, "expense": income}
 
-@router.post("/expenses/direct")
-async def expense_handler(expense: Expense):
+@router.post("/records/add-expense", status_code=status.HTTP_201_CREATED)
+async def expense_handler(expense: Record):
     return {"status": 200, "expense": expense}
