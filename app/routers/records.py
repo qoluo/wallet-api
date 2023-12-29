@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Query, status
+from fastapi import APIRouter, Query, status, Response
 from typing import Annotated
 from pydantic import BaseModel
+from app.routers.records_util.records_handler import add_record
 
 router = APIRouter()
 
@@ -13,8 +14,15 @@ class Record(BaseModel):
     date: str
 
 @router.post("/records/add-income", status_code=status.HTTP_201_CREATED)
-async def expense_handler(income: Record):
-    return {"status": 200, "expense": income}
+async def expense_handler(income: Record, response: Response):
+    record_data = income.model_dump()
+    insert_result: bool = add_record(record_data)
+
+    if not insert_result:
+        response.status_code: str = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return "Error while inserting record."
+    
+    return "Success."
 
 @router.post("/records/add-expense", status_code=status.HTTP_201_CREATED)
 async def expense_handler(expense: Record):
