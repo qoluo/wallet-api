@@ -21,15 +21,9 @@ async def expense_handler(income: Record, response: Response):
 
     if not insert_result:
         response.status_code: str = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {
-        "status": "Failed",
-        "recordType": "income"
-    }
+        return {"status": "Failed", "recordType": "income"}
 
-    return {
-        "status": "Success",
-        "type": "income"
-    }
+    return {"status": "Success", "type": "income"}
 
 
 @router.post("/records/add-expense", status_code=status.HTTP_201_CREATED)
