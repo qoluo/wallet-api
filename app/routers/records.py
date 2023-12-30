@@ -1,16 +1,27 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query, status, Response
+from typing import Annotated
 from pydantic import BaseModel
+from app.routers.records_util.records_handler import add_record
 
 router = APIRouter()
 
 
-class Expense(BaseModel):
+class Record(BaseModel):
+    type: str
     account: str
-    category: str
-    description: str | None = None
-    amount: float | int
+    amount: Annotated[float | int, Query(gt=0)]
+    currency: str
+    date: str
 
 
-@router.post("/expenses/direct")
-async def expense_handler(expense: Expense):
-    return {"status": 200, "expense": expense}
+@router.post("/records/add-record", status_code=status.HTTP_201_CREATED)
+async def expense_handler(record: Record, response: Response):
+    record_data = record.model_dump()
+    insert_result: bool = add_record(record_data)
+
+    if not insert_result:
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {"status": "Failed", "recordType": record_data["type"]}
+
+    return {"status": "Success", "recordType": record_data["type"]}
+
