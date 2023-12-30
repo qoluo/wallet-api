@@ -14,18 +14,14 @@ class Record(BaseModel):
     date: str
 
 
-@router.post("/records/add-income", status_code=status.HTTP_201_CREATED)
-async def expense_handler(income: Record, response: Response):
-    record_data = income.model_dump()
+@router.post("/records/add-record", status_code=status.HTTP_201_CREATED)
+async def expense_handler(record: Record, response: Response):
+    record_data = record.model_dump()
     insert_result: bool = add_record(record_data)
 
     if not insert_result:
-        response.status_code: str = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {"status": "Failed", "recordType": "income"}
+        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {"status": "Failed", "recordType": record_data["type"]}
 
-    return {"status": "Success", "type": "income"}
+    return {"status": "Success", "recordType": record_data["type"]}
 
-
-@router.post("/records/add-expense", status_code=status.HTTP_201_CREATED)
-async def expense_handler(expense: Record):
-    return {"status": 200, "expense": expense}
