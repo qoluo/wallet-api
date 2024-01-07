@@ -2,6 +2,7 @@ from fastapi import APIRouter, Query, status, Response
 from typing import Annotated
 from pydantic import BaseModel
 from app.routers.records_util.records_handler import add_record
+from app.routers.records_util.records_handler import get_all_records
 
 router = APIRouter()
 
@@ -25,3 +26,8 @@ async def expense_handler(record: Record, response: Response):
 
     return {"status": "Success", "recordType": record_data["type"]}
 
+
+@router.post("/records/aggregate", status_code=status.HTTP_200_OK)
+async def aggregate_handler():
+    records = get_all_records()
+    return records
