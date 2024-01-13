@@ -1,6 +1,5 @@
-import pytest
-from fastapi.exceptions import RequestValidationError
 from fastapi.testclient import TestClient
+
 from app.routers.records import router
 
 client = TestClient(router)
