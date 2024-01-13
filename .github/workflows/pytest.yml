@@ -19,7 +19,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run Pytest tests
-        run: pytest --html=pytest-report.html
+        run: python -m pytest tests/ --html=pytest-report.html
 
       - name: Upload html report
         if: always()
