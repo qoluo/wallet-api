@@ -28,7 +28,7 @@ jobs:
           mongodb-version: '7.0'
 
       - name: Run Pytest tests
-        run: python -m pytest tests/ --html=pytest-report.html
+        run: python -m pytest tests/ --html=pytest-report/pytest-report.html
 
       - name: Upload html report
         if: always()
