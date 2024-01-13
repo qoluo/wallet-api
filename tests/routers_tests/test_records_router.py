@@ -5,13 +5,13 @@ from app.routers.records import router
 client = TestClient(router)
 
 
-def test_direct_income():
+def add_record_test():
     json = {
-        "type": "income",
-        "account": "first",
-        "amount": 10,
-        "currency": "EUR",
-        "date": "123123",
+        "type": "pytest-type",
+        "account": "pytest-account",
+        "amount": 123,
+        "currency": "pytest-currency",
+        "date": "pytest-date",
     }
 
     response = client.post("/records/add-record", json=json)
