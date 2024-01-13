@@ -1,9 +1,13 @@
 name: Pytest Tests
+env:
+  MONGODB_URL: ${{ secrets.MONGODB_URL }}
+  WALLET_DEFAULT_DB: ${{ secrets.WALLET_DEFAULT_DB }}
+  WALLET_RECORDS_COLLECTION: ${{ secrets.WALLET_RECORDS_COLLECTION }}
 on:
   pull_request:
     branches: [ main ]
 jobs:
-  playwright-tests:
+  pytest-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
 
