@@ -1,0 +1,30 @@
+name: Pytest Tests
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  playwright-tests:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.0'
+          architecture: 'x64'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Pytest tests
+        run: pytest --html=pytest-report.html
+
+      - name: Upload html report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: pytest-report
+          path: pytest-report
+          retention-days: 30
