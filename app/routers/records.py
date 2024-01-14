@@ -18,7 +18,7 @@ class Record(BaseModel):
     date: str
 
 
-@router.post("/records/add-record", status_code=status.HTTP_201_CREATED)
+@router.post("/records/add-one", status_code=status.HTTP_201_CREATED)
 async def add_record_handler(record: Record, response: Response):
     record_data = record.model_dump()
     insert_result: bool = add_record(record_data)
