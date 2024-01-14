@@ -1,5 +1,7 @@
+import json
 import os
 
+from bson import json_util
 from pymongo import MongoClient
 
 from app.db.connector import get_db_client
@@ -32,9 +34,24 @@ def get_all_records():
     wallet_default_db = db_client[default_db_name]
     collection = wallet_default_db[records_collection_name]
 
-    records = collection.find({}, {"_id": 0})
+    records = json.loads(json_util.dumps(collection.find({})))
     result = [record for record in records]
-    
+
     db_client.close()
 
     return result
+
+
+def delete_all_records():
+    db_client: MongoClient = get_db_client()
+
+    if not db_client:
+        return False
+
+    wallet_default_db = db_client[default_db_name]
+    collection = wallet_default_db[records_collection_name]
+
+    result = collection.delete_many({})
+    db_client.close()
+
+    return True if result.deleted_count > 0 else False
