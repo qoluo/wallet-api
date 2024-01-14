@@ -20,7 +20,7 @@ def add_multiple_records():
     }
 
     for _ in range(3):
-        client.post("/records/add-record", json=json)
+        client.post("/records/add-one", json=json)
 
 
 def test_get_all_records():

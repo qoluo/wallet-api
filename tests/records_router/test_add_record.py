@@ -17,7 +17,7 @@ def test_add_record_correctly():
         "date": "pytest-date",
     }
 
-    response = client.post("/records/add-record", json=json)
+    response = client.post("/records/add-one", json=json)
     assert response.status_code == 201
     assert response.json() == {"status": "Success", "recordType": "pytest-type"}
 
@@ -31,17 +31,17 @@ def test_add_record_use_put():
         "date": "pytest-date",
     }
 
-    response = client.put("/records/add-record", json=json)
+    response = client.put("/records/add-one", json=json)
     assert response.status_code == 405
 
 
 def test_add_record_use_delete():
-    response = client.delete("/records/add-record")
+    response = client.delete("/records/add-one")
     assert response.status_code == 405
 
 
 def test_add_record_use_get():
-    response = client.get("/records/add-record")
+    response = client.get("/records/add-one")
     assert response.status_code == 405
 
 
@@ -53,7 +53,7 @@ def test_add_record_without_type_field():
         "date": "pytest-date",
     }
 
-    response = client.post("/records/add-record", json=json)
+    response = client.post("/records/add-one", json=json)
     assert response.status_code == 422
 
 
@@ -65,7 +65,7 @@ def test_add_record_without_account_field():
         "date": "pytest-date",
     }
 
-    response = client.post("/records/add-record", json=json)
+    response = client.post("/records/add-one", json=json)
     assert response.status_code == 422
 
 
@@ -77,7 +77,7 @@ def test_add_record_without_amount_field():
         "date": "pytest-date",
     }
 
-    response = client.post("/records/add-record", json=json)
+    response = client.post("/records/add-one", json=json)
     assert response.status_code == 422
 
 
@@ -89,7 +89,7 @@ def test_add_record_without_currency_field():
         "date": "pytest-date",
     }
 
-    response = client.post("/records/add-record", json=json)
+    response = client.post("/records/add-one", json=json)
     assert response.status_code == 422
 
 
@@ -101,10 +101,10 @@ def test_add_record_without_date_field():
         "currency": "pytest-currency",
     }
 
-    response = client.post("/records/add-record", json=json)
+    response = client.post("/records/add-one", json=json)
     assert response.status_code == 422
 
 
 def test_add_record_without_any_data():
-    response = client.post("/records/add-record", json={})
+    response = client.post("/records/add-one", json={})
     assert response.status_code == 422
